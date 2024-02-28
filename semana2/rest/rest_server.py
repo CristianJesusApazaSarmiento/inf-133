@@ -8,6 +8,30 @@ estudiantes = [
         "apellido": "García",
         "carrera": "Ingeniería de Sistemas",
     },
+    {
+        "id": 2,
+        "nombre": "Carlos",
+        "apellido": "Huanca",
+        "carrera": "Ciencia de Datos",
+    },
+    {
+        "id": 3,
+        "nombre": "Alexia",
+        "apellido": "Gutierrez",
+        "carrera": "Inteligencia Artificial",
+    },
+    {
+        "id": 4,
+        "nombre": "Pepe",
+        "apellido": "Cordoba",
+        "carrera": "Seguridad de la Informacion",
+    },
+    {
+        "id": 5,
+        "nombre": "Pablo",
+        "apellido": "Escobar",
+        "carrera": "Seguridad de la Informacion",
+    },
 ]
 
 class RESTRequestHandler(BaseHTTPRequestHandler):
@@ -17,6 +41,31 @@ class RESTRequestHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'application/json')
             self.end_headers()
             self.wfile.write(json.dumps(estudiantes).encode('utf-8'))
+            
+        elif self.path == '/buscar_nombre':
+            busca = [estudiante["nombre"] for estudiante in estudiantes if estudiante["nombre"].startswith("P")]
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps(busca).encode('utf-8'))
+
+        elif self.path == '/contar_carreras':
+            contar = {}
+            for estudiante in estudiantes:
+                carrera = estudiante["carrera"]
+                contar[carrera] = contar.get(carrera, 0) + 1
+            
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps(contar).encode('utf-8'))
+
+        elif self.path == '/total_estudiantes':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps(len(estudiantes)).encode('utf-8'))
+            
         else:
             self.send_response(404)
             self.send_header('Content-type', 'application/json')
