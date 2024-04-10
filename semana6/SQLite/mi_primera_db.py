@@ -8,11 +8,14 @@ conn = sqlite3.connect("instituto.db")
 # Crear tabla de carreras
 #INTERGER, TEXT, DATE... son tipos de datos
 #
-conn.execute(
-    """
-    CREATE TABLE CARRERAS(id INTEGER PRIMARY KEY, nombre TEXT NOT NULL, duracion INTEGER NOT NULL);
-    """
-)
+'''try:
+    conn.execute(
+        """
+        CREATE TABLE CARRERAS(id INTEGER PRIMARY KEY, nombre TEXT NOT NULL, duracion INTEGER NOT NULL);
+        """
+    )
+except sqlite3.OperationalError:
+    print("La tabla CARRERAS ya exite")
 
 # Insertar datos de carreras
 conn.execute(
@@ -24,25 +27,28 @@ conn.execute(
     """
     INSERT INTO CARRERAS (nombre, duracion) VALUES ('Licenciatura en Administración', 4)
     """
-)
+)'''
+
 
 # Consultar datos
-print("\nCARRERAS:")
+'''print("\nCARRERAS:")
 cursor = conn.execute("SELECT * FROM CARRERAS")
 for row in cursor:
-    print(row)
+    print(row)'''
 
 # CARRERAS:
 # (1, 'Ingeniería en Informática', 5)
 # (2, 'Licenciatura en Administración', 4)
 
 # Crear tablas de estudiantes
-conn.execute(
-    """
-    CREATE TABLE ESTUDIANTES(id INTEGER PRIMARY KEY,nombre TEXT NOT NULL,apellido TEXT NOT NULL,fecha_nacimiento DATE NOT NULL);
-    """
-)
-
+'''try:
+    conn.execute(
+        """
+        CREATE TABLE ESTUDIANTES(id INTEGER PRIMARY KEY,nombre TEXT NOT NULL,apellido TEXT NOT NULL,fecha_nacimiento DATE NOT NULL);
+        """
+    )
+except sqlite3.OperationalError:
+    print("La tabla ESTUDIANTES ya existe")
 # Insertar datos de estudiantes
 conn.execute(
     """
@@ -59,21 +65,24 @@ conn.execute(
 print("\nESTUDIANTES:")
 cursor = conn.execute("SELECT * FROM ESTUDIANTES")
 for row in cursor:
-    print(row)
+    print(row)'''
 
 # ESTUDIANTES:
 # (1, 'Juan', 'Perez', '2000-05-15')
 # (2, 'María', 'Lopez', '1999-08-20')
 
 # Crear tabla de matriculación
-conn.execute(
-    """
-    CREATE TABLE MATRICULAS(id INTEGER PRIMARY KEY,estudiante_id INTEGER NOT NULL,carrera_id INTEGER NOT NULL,
-    fecha DATE NOT NULL, 
-    FOREIGN KEY (estudiante_id) REFERENCES ESTUDIANTES(id),
-    FOREIGN KEY (carrera_id) REFERENCES CARRERAS(id));
-    """
-)
+'''try:
+    conn.execute(
+        """
+        CREATE TABLE MATRICULAS(id INTEGER PRIMARY KEY,estudiante_id INTEGER NOT NULL,carrera_id INTEGER NOT NULL,
+        fecha DATE NOT NULL, 
+        FOREIGN KEY (estudiante_id) REFERENCES ESTUDIANTES(id),
+        FOREIGN KEY (carrera_id) REFERENCES CARRERAS(id));
+        """
+    )
+except sqlite3.OperationalError:
+    print("La tabla MATRICULAS ya existe")
 
 # Insertar datos de matriculación
 conn.execute(
@@ -107,14 +116,14 @@ cursor = conn.execute(
     """
 )
 for row in cursor:
-    print(row)
+    print(row)'''
 
 # MATRICULACION:
 # ('Juan', 'Perez', 'Ingeniería en Informática', '2024-01-15')
 # ('María', 'Lopez', 'Licenciatura en Administración', '2024-01-20')
 # ('Juan', 'Perez', 'Licenciatura en Administración', '2024-01-25')    
 
-# Eliminar una fila de la tabla de matriculación
+'''# Eliminar una fila de la tabla de matriculación
 conn.execute(
     """
     DELETE FROM MATRICULAS
@@ -129,13 +138,13 @@ cursor = conn.execute(
 )
 
 for row in cursor:
-    print(row)
+    print(row)'''
 
 # MATRICULACION:
 # (1, 1, 1, '2024-01-15')
 # (2, 2, 2, '2024-01-20')
 
-# Actualizar una fila de la tabla de matriculación
+'''# Actualizar una fila de la tabla de matriculación
 conn.execute(
     """
     UPDATE MATRICULAS
@@ -149,7 +158,7 @@ cursor = conn.execute(
     "SELECT * FROM MATRICULAS"
 )
 for row in cursor:
-    print(row)
+    print(row)'''
     
 # MATRICULACION:
 # (1, 1, 1, '2024-01-15')

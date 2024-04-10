@@ -3,11 +3,14 @@ import sqlite3
 conn = sqlite3.connect("restaurante.db")
 
 #Crear tabla de platos
-'''conn.execute(
+'''try: 
+    conn.execute(
     """
     CREATE TABLE PLATOS(id INTEGER PRIMARY KEY, nombre TEXT NOT NULL, precio REAL NOT NULL, categoria TEXT NOT NULL);
     """
-)'''
+    )
+except sqlite3.OperationalError:
+    print("La tabla PLATOS ya exite")
 #Insertar datos de la tabla platos
 conn.execute(
     """
@@ -28,21 +31,23 @@ conn.execute(
     """
     INSERT INTO PLATOS(nombre, precio, categoria) VALUES ('Ensalada','6.99','Vegetariana')
     """
-)
+)'''
 # Consultar datos de Platos
-print("\nPLATOS:")
+'''print("\nPLATOS:")
 cursor = conn.execute("SELECT * FROM PLATOS")
 for row in cursor:
-    print(row)
-
+    print(row)'''
 
 
 #Crear tabla de mesas
-conn.execute(
+'''try: 
+    conn.execute(
     """
     CREATE TABLE MESAS(id INTEGER PRIMARY KEY, numero INTEGER NOT NULL);
     """
-)
+    )
+except sqlite3.OperationalError:
+    print("La tabla MESAS ya exite")
 #Insertar datos de la tabla mesas
 conn.execute(
     """
@@ -68,11 +73,12 @@ conn.execute(
 print("\nMESAS:")
 cursor = conn.execute("SELECT * FROM MESAS")
 for row in cursor:
-    print(row)
+    print(row)'''
 
 
 #Crear tabla de Pedidos
-conn.execute(
+'''try:
+    conn.execute(
     """
     CREATE TABLE PEDIDOS(id INTEGER PRIMARY KEY, plato_id INTEGER NOT NULL, mesa_id INTEGER NOT NULL, 
     cantidad INTEGER NOT NULL, fecha DATE NOT NULL,
@@ -80,7 +86,9 @@ conn.execute(
     FOREIGN KEY(mesa_id)REFERENCES MESAS(id)
     );
     """
-)
+    )
+except sqlite3.OperationalError:
+    print("La tabla PEDIDOS ya existe")
 #Insertar datos de la tabla pedidos
 conn.execute(
     """
@@ -106,10 +114,11 @@ conn.execute(
 print("\nPEDIDOS:")
 cursor = conn.execute("SELECT * FROM PEDIDOS")
 for row in cursor:
-    print(row)
+    print(row)'''
+    
     
 #Actualiza el precio del plato con id 2 (hamburguesa) a 9.99
-conn.execute(
+'''conn.execute(
     """
     UPDATE PLATOS
     SET precio = '9.99'
@@ -119,10 +128,10 @@ conn.execute(
 print("\nActualiza el precio del plato con id 2 (hamburguesa) a 9.99")
 cursor = conn.execute("SELECT * FROM PLATOS")
 for row in cursor:
-    print(row)
+    print(row)'''
     
 #Cambia la categoria del plato con id 3 (sushi) a "Fusion" 
-conn.execute(
+'''conn.execute(
     """
     UPDATE PLATOS
     SET categoria = 'Fusion'
@@ -132,28 +141,34 @@ conn.execute(
 print("\nCambia la categoria del plato con id 3 (sushi) a Fusion")
 cursor = conn.execute("SELECT * FROM PLATOS")
 for row in cursor:
-    print(row)
+    print(row)'''
     
 #Elimina el plato con id 4 (Ensalada) de la tabla de platos
-conn.execute(
+'''conn.execute(
     """
     DELETE FROM PLATOS
     WHERE id = 4
     """
-)
-print("\nElimina el plato con id 4 (Ensalada) de la tabla de platos")
+)'''
+'''print("\nElimina el plato con id 4 (Ensalada) de la tabla de platos")
 cursor = conn.execute("SELECT * FROM PLATOS")
 for row in cursor:
-    print(row)
+    print(row)'''
     
 #Elimina el pedido con id 3
-conn.execute(
+'''conn.execute(
     """
     DELETE FROM PEDIDOS
     WHERE id = 3
     """
 )
+
 print("\nElimina el pedido con id 3")
 cursor = conn.execute("SELECT * FROM PEDIDOS")
 for row in cursor:
-    print(row)
+    print(row)'''
+
+#Confimar cambios
+
+# Cerrar conexión
+conn.close()
