@@ -17,10 +17,10 @@ def registro():
         first_name = request.form['first_name']
         last_name = request.form['last_name']
         email = request.form['email']
-        contraseña = request.form['contraseña']
-        fecha_de_nacimiento = request.form['fecha_de_nacimiento']
+        password = request.form['password']
+        birthdate = request.form['birthdate']
         
-        user = User(first_name, last_name, email, contraseña, fecha_de_nacimiento)
+        user = User(first_name, last_name, email, password, birthdate)
         user.save()
         
         return redirect(url_for('user.usuarios'))
