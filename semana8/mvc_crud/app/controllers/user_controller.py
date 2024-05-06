@@ -4,15 +4,19 @@ from views import user_view
 
 from models.user_model import User
 
-user_bp = Blueprint('user', __name__)
+user_bp = Blueprint("user", __name__)
 
-@user_bp.route('/')
-def usuarios():
+@user_bp.route("/")
+def index():
+    return redirect(url_for("user.list_users"))
+
+@user_bp.route("/users")
+def list_users():
     users = User.get_all()
     return user_view.usuarios(users)
 
-@user_bp.route('/users', methods=['GET', 'POST'])
-def registro():
+@user_bp.route("/users/create", methods=["GET", "POST"])
+def create_user():
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
@@ -23,40 +27,36 @@ def registro():
         user = User(first_name, last_name, email, password, birthdate)
         user.save()
         
-        return redirect(url_for('user.usuarios'))
+        return redirect(url_for('user.list_users'))
     return user_view.registro()
 
-@user_bp.route("/users/<int:id>", methods=["GET"])
-def obtener_usuario(id):
+
+@user_bp.route("/users/<int:id>/update", methods=["GET", "POST"])
+def update_user(id):
     user = User.get_by_id(id)
     if not user:
         return "Usuario no encontrado", 404
+    if request.method == "POST":
+        first_name = request.form["first_name"]
+        last_name = request.form["last_name"]
+        email = request.form["email"]
+        password = request.form["password"]
+        birthdate = request.form["birthdate"]
+        
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.password = password
+        user.birthdate = birthdate
+        
+        user.update()
+        return redirect(url_for("user.list_user"))
     return user_view.actualizar(user)
 
-@user_bp.route("/users/<int:id>", methods=["POST"])
-def actualizar(id):
-    user = User.get_by_id(id)
-    if not user:
-        return "Usuario no encontrado", 404
-    first_name = request.form["first_name"]
-    last_name = request.form["last_name"]
-    email = request.form["email"]
-    password = request.form["password"]
-    birthdate = request.form["birthdate"]
-    
-    user.first_name = first_name
-    user.last_name = last_name
-    user.email = email
-    user.password = password
-    user.birthdate = birthdate
-    
-    user.update()
-    return redirect(url_for("user.usuarios"))
-
-@user_bp.route("/users/<int:id>/delete", methods=["POST"])
+@user_bp.route("/users/<int:id>/delete")
 def eliminar(id):
     user = User.get_by_id(id)
     if not user:
         return "Usuario no encontrado", 404
     user.delete()
-    return redirect(url_for("user.usuarios"))
+    return redirect(url_for("user.list_users"))

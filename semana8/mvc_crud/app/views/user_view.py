@@ -9,6 +9,3 @@ def registro():
 
 def actualizar(user):
     return render_template("actualizar.html", title="Actualizar usuario", user=user)
-
-def eliminar():
-    return render_template("usuarios.html", title="Lista de usuarios")

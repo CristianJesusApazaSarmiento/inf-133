@@ -15,9 +15,9 @@
                             <p><strong>Password: {{ user.password }}</strong></p>
                             <p><strong>Fecha de nacimiento: {{ user.birthdate }}</strong></p>
                             <div class="buttons">
-                                <a href="{{ url_for('user.actualizar', id=user.id) }}" 
+                                <a href="{{ url_for('user.update_user', id=user.id) }}" 
                                 class="button is-info">Editar</a>
-                                <a href="{{ url_for('user.usuarios', id=user.id) }}" 
+                                <a href="{{ url_for('user.delete_user', id=user.id) }}" 
                                 class="button is-danger">Eliminar</a>
                             </div>
                         </div>
