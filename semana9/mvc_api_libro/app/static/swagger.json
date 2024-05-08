@@ -1,0 +1,172 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Biblioteca API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/libros": {
+            "get": {
+                "summary": "Obtiene la lista de todos los libros",
+                "responses": {
+                    "200": {
+                        "description": "Lista de libros",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Libro"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Crea un nuevo libro",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Libro"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Libro creado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Libro"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/libros/{id}": {
+            "get": {
+                "summary": "Obtiene un libro específico por su ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del libro",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Libro"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Libro no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Actualiza un libro existente por su ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Libro"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Libro actualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Libro"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Libro no encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Elimina un libro existente por su ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Libro eliminado"
+                    },
+                    "404": {
+                        "description": "Libro no encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Libro": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
+                    "titulo": {
+                        "type": "string"
+                    },
+                    "autor": {
+                        "type": "string"
+                    },
+                    "edicion": {
+                        "type": "integer"
+                    },
+                    "disponibilidad":{
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "titulo",
+                    "autor",
+                    "edicion",
+                    "disponibilidad"
+                ]
+            }
+        }
+    }
+}
