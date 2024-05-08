@@ -17,17 +17,17 @@ def list_users():
 
 @user_bp.route("/users/create", methods=["GET", "POST"])
 def create_user():
-    if request.method == 'POST':
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        email = request.form['email']
-        password = request.form['password']
-        birthdate = request.form['birthdate']
+    if request.method == "POST":
+        first_name = request.form["first_name"]
+        last_name = request.form["last_name"]
+        email = request.form["email"]
+        password = request.form["password"]
+        birthdate = request.form["birthdate"]
         
         user = User(first_name, last_name, email, password, birthdate)
         user.save()
         
-        return redirect(url_for('user.list_users'))
+        return redirect(url_for("user.list_users"))
     return user_view.registro()
 
 
@@ -50,11 +50,11 @@ def update_user(id):
         user.birthdate = birthdate
         
         user.update()
-        return redirect(url_for("user.list_user"))
+        return redirect(url_for("user.list_users"))
     return user_view.actualizar(user)
 
 @user_bp.route("/users/<int:id>/delete")
-def eliminar(id):
+def delete_user(id):
     user = User.get_by_id(id)
     if not user:
         return "Usuario no encontrado", 404
