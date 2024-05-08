@@ -6,8 +6,8 @@ class Libro(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     titulo = db.Column(db.String(100), nullable=False)
     autor = db.Column(db.String(100), nullable=False)
-    edicion = db.Column(db.String(100), nullable=False)
-    disponibilidad = db.Column(db.Boolean())
+    edicion = db.Column(db.Integer, nullable=False)
+    disponibilidad = db.Column(db.Boolean, nullable=False)
 
     def __init__(self, titulo, autor, edicion, disponibilidad):
         self.titulo = titulo
@@ -32,9 +32,9 @@ class Libro(db.Model):
             self.titulo = titulo
         if autor is not None:
             self.autor = autor
-        if edicion is not None:
+        if edicion != None:
             self.edicion = edicion
-        if disponibilidad is not None:
+        if disponibilidad != None:
             self.disponibilidad = disponibilidad
         db.session.commit()
 

@@ -4,21 +4,15 @@ from database import db
 
 app = Flask(__name__)
 
-# Configuración de la base de datos
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///biblioteca.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-# Inicializa la base de datos
 db.init_app(app)
 
-# Registra el blueprint de animales en la aplicación
 app.register_blueprint(libro_bp, url_prefix="/api")
 
-# Crea las tablas si no existen
-#los blueprints son lo que resuleven las rutas
 with app.app_context():
     db.create_all()
 
-# Ejecuta la aplicación
 if __name__ == "__main__":
     app.run(debug=True)

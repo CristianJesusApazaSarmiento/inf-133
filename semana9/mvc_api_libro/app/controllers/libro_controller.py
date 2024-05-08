@@ -25,7 +25,7 @@ def create_libro():
     edicion = data.get("edicion")
     disponibilidad = data.get("disponibilidad")
 
-    if not titulo or not autor or not edicion or not disponibilidad is None:
+    if not titulo or not autor or edicion is None or disponibilidad==None:
         return jsonify({"error": "Faltan datos requeridos"}), 400
 
     libro = Libro(titulo=titulo, autor=autor, edicion=edicion, disponibilidad=disponibilidad)
