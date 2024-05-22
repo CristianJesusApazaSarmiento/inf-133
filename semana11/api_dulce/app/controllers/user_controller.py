@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from models.user_model import User
 from views.user_view import render_user_detail, render_user_list
 from flask_jwt_extended import create_access_token
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from utils.decorators import jwt_required, roles_required
 
 user_bp = Blueprint("user", __name__)
@@ -57,16 +57,16 @@ def get_user(id):
 @user_bp.route("/users", methods=["POST"])
 @jwt_required 
 @roles_required(roles=["admin"])
-def create_dulce():
+def create_user():
     data = request.json
     username = data.get("username")
-    password_hash = data.get("password_hash")
+    password = data.get("password")
     roles = data.get("roles")
 
-    if not username or not password_hash or not roles:
+    if not username or not password or not roles:
         return jsonify({"error": "Faltan datos requeridos"}), 400
 
-    user = User(username=username, password_hash=password_hash, roles=roles)
+    user = User(username=username, password=password, roles=roles)
     user.save()
 
     return jsonify(render_user_detail(user)), 201
@@ -75,7 +75,7 @@ def create_dulce():
 @user_bp.route("/users/<int:id>", methods=["PUT"])
 @jwt_required
 @roles_required(roles=["admin"])
-def update_dulce(id):
+def update_user(id):
     user = User.get_by_id(id)
 
     if not user:
@@ -83,10 +83,9 @@ def update_dulce(id):
 
     data = request.json
     username = data.get("username")
-    password_hash = data.get("password_hash")
     roles = data.get("roles")
-
-    user.update(username=username, password_hash=password_hash, roles=roles)
+    password = data.get("password")
+    user.update(username=username, password=password, roles=roles)
 
     return jsonify(render_user_detail(user))
     

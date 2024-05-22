@@ -14,8 +14,8 @@ class User(UserMixin, db.Model):
     
     def __init__(self, username, password, roles=["user"]):
         self.username = username
-        self.roles = json.dumps(roles)
         self.password_hash = generate_password_hash(password)
+        self.roles = json.dumps(roles)
 
     def save(self):
         db.session.add(self)
@@ -25,13 +25,13 @@ class User(UserMixin, db.Model):
     def find_by_username(username):
         return User.query.filter_by(username=username).first()
     
-    def update(self, username=None, password_hash=None, roles=None):
+    def update(self, username=None, password=None, roles=None):
         if username is not None:
             self.username = username
-        if password_hash is not None:
-            self.password_hash = password_hash
+        if password is not None:
+            self.password_hash = generate_password_hash(password)
         if roles is not None:
-            self.roles = roles
+            self.roles = json.dumps(roles)
         db.session.commit()
 
     def delete(self):

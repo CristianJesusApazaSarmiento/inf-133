@@ -5,7 +5,7 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/libros": {
+        "/api/dulces": {
             "get": {
                 "summary": "Obtiene la lista de todos los dulces",
                 "security": [
@@ -59,7 +59,7 @@
                 }
             }
         },
-        "/api/libros/{id}": {
+        "/api/dulces/{id}": {
             "get": {
                 "summary": "Obtiene un dulce específico por su ID",
                 "security":[
@@ -386,7 +386,7 @@
             }
         },
         "schemas": {
-            "Libro": {
+            "Dulce": {
                 "type": "object",
                 "properties": {
                     "id": {
@@ -397,10 +397,10 @@
                         "type": "string"
                     },
                     "peso": {
-                        "type": "float"
+                        "type": "number"
                     },
                     "sabor": {
-                        "type": "integer"
+                        "type": "string"
                     },
                     "origen":{
                         "type": "string"
@@ -416,6 +416,10 @@
             "User": {
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": true
+                    },
                     "username": {
                         "type": "string"
                     },
@@ -434,6 +438,7 @@
                     }
                 },
                 "required": [
+                    "id",
                     "username",
                     "password",
                     "roles"
